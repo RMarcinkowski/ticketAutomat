@@ -7,7 +7,7 @@ locale.setlocale(locale.LC_ALL, "de-DE")
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
-
+# define cash class and create the money used in the automat
 class Cash:
     def __init__(self, value, quantity):
         self.value = value
@@ -29,7 +29,7 @@ cashArray = [twentyEuro, tenEuro, fiveEuro, twoEuro, oneEuro, fiftyCent, twentyC
              oneCent]
 changeArray = []
 
-#try if the specific cash can be used as change and if so, use it
+# try if the specific cash can be used as change and if so, use it
 def tryCash(cash, change):
     if (cash.value <= change and cash.quantity > 0):
         cash.quantity -= 1
@@ -37,11 +37,11 @@ def tryCash(cash, change):
         return True
     return False
 
-#main program
+# main program
 runProgram = True
 while runProgram:
 
-    #clear the changeArray and freeze the current cash status
+    # clear the changeArray and freeze the current cash status
     changeArray = []
     currentCashArray = []
     for i in range(len(cashArray)):
@@ -101,19 +101,20 @@ while runProgram:
     if (price + change != money):
         print("Fehler im Programm")
 
-    #print the results
+    # print the results
     print("\n\nIhr Wechselgeld beträgt: " + str(locale.currency(change / 100)))
     print("Und besteht aus:")
-
     for i in range(len(cashArray)):
         if (currentCashArray[i] - cashArray[i].quantity > 0):
             print(str(currentCashArray[i] - cashArray[i].quantity) + "mal " + str(
                 locale.currency(cashArray[i].value / 100)))
 
+    # print the remaining cash in the automat to stderr
     eprint("\nEs sind noch folgende Geldbeträge im Automaten:")
     for i in range(len(cashArray)):
         eprint(str(locale.currency(cashArray[i].value / 100)) + ": " + str(cashArray[i].quantity) + "mal")
 
+    # ask for repetition
     repeat = input("\n\nDas Ticket wurde erfolgreich gekauft. Weiteres Ticket kaufen? 'j' eingeben")
     if repeat != "j":
         runProgram = False
